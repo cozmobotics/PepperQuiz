@@ -1,0 +1,12 @@
+[
+   {
+        "question": "Was kann man an der Technischen Universit&auml;t Wien studieren?",
+        "answer_options": ["Alle Antworten sind richtig", "Architektur, Bauingenieurwesen, Elektrotechnik und Informtionstechnik, Geodesie und Geoinformation", "Informatik und Wirtschaftsinformatik, Maschinenbau, Raumplanung und Raumordnung, Technische Chemie, Technische Mathematik", "Technische Pyhsik, Verfahrenstechnik, Wirtschaftsingenieurwesen-Maschinenbau"]
+    }
+,
+    {
+      "question": "Was muss ein Roboter haben?",
+      "answer_options": ["Sensoren, Aktuatoren, Prozessor", "Gesicht", "Arme", "Beine"],
+      "info":"Roboter m&uuml;ssen nicht so aussehen, wie man sich normalerweise einen Roboter vorstellt. "
+    }
+]
