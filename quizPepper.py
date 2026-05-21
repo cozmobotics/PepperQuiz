@@ -158,18 +158,30 @@ def protocolResult (Question, QuestionNr, NumQuestions, Answer, answer_index, Fi
 	FileHandle = open (Filename, "a")
 	
 	if (FileHandle):
-		FileHandle.write ("-----------------------------------------\n")
-		FileHandle.write ("Frage " + str(QuestionNr) + " von " + str(NumQuestions) + "\n")
-		FileHandle.write (Question.question + "\n")
-		FileHandle.write ("korrekt: " + Question.answer_options[answer_index] + "\n")
+		try:
+			FileHandle.write ("-----------------------------------------\n")
+			FileHandle.write ("Frage " + str(QuestionNr) + " von " + str(NumQuestions) + "\n")
+			FileHandle.write (Question.question + "\n")
+			FileHandle.write ("korrekt: " + Question.answer_options[answer_index] + "\n")
+		except Exception as e:
+			print (str (e))
 		
 		if ((Answer > 0) and (Answer < 4)): 
 			if (Answer != answer_index):
-				FileHandle.write ("falsch: " + Question.answer_options[Answer] + "\n")
+				try:
+					FileHandle.write ("falsch: " + Question.answer_options[Answer] + "\n")
+				except Exception as e:
+					print (str (e))
 		else:
-			FileHandle.write ("timeout\n")
-		FileHandle.write ("\n")
-		FileHandle.close()
+			try:
+				FileHandle.write ("timeout\n")
+			except Exception as e:
+				print (str (e))
+		try:
+			FileHandle.write ("\n")
+			FileHandle.close()
+		except Exception as e:
+			print (str (e))
 	else:
 		print ("error opening output file " + Filename)
 		

@@ -13,30 +13,28 @@ tabletService = ""
 # Don't forget to disconnect the signal at the end
 signalID = 0
 
-# #----------------------------------------------------------------------------------
-# style = """
-# var style = document.createElement('style');
-# style.innerHTML = `
-# .button {
-  # color: white;
-  # padding: 30px 32px;
-  # text-align: center;
-  # text-decoration: none;
-  # display: inline-block;
-  # font-size: 20px;
-  # border-radius: 10px;
-  # margin: 4px 2px;
-  # cursor: pointer;
-  # background-color: #006599; // TU-blau
-# }
-# .button1 { font-size: 15px; }
-# .button2 { font-size: 25px; } 
-# `;
-# document.head.appendChild(style);
-# """
+#----------------------------------------------------------------------------------
+style = """
+document.clear ();
+document.writeln ('<style> ');
+document.writeln ('.button { ');
+document.writeln ('  color: white; ');
+document.writeln ('  padding: 10px 20px; ');
+document.writeln ('  text-align: center; ');
+document.writeln ('  text-decoration: none; ');
+document.writeln ('  display: inline-block; ');
+document.writeln ('  font-size: 15px; ');
+document.writeln ('  border-radius: 10px; ');
+document.writeln ('  margin: 4px 2px; ');
+document.writeln ('  cursor: pointer; ');
+document.writeln ('  background-color: #006599 /* TU-blau */ ');
+document.writeln ('} ');
+document.writeln ('.button1 { font-size: 10px; } ');
+document.writeln ('.button2 { font-size: 25px; } ');
+document.writeln ('</style> ');
+"""
 
 # call like "<button style=button button2 onclick=..."
-# Works on paper, but not on Pepper
 
 
 #----------------------------------------------------------------------------------
@@ -62,7 +60,7 @@ def introduction (Animate):
 		document.clear();
 		document.write ("<font size=+2>");
 		document.write("<h1>Hallo!</h1><b>Machen wir ein Quiz!</b><br><br>") 
-		document.write('<button onclick="myFunctionIntro()">OK</button><br><br>');
+		document.write('<button class=button onclick="myFunctionIntro()">OK</button><br><br>');
 		document.write ("</font>");
 		"""
 
@@ -75,7 +73,7 @@ def introduction (Animate):
 	tabletService.showWebview("") # this necessary for clearing the screen. cleanWebview() and document.clear() don't do the job. 
 
 	try:
-		tabletService.executeJS(script)
+		tabletService.executeJS(style + script)
 	except Exception as e:
 		print ("Error 1 was: ", e)
 
@@ -100,8 +98,8 @@ def askQuestion (Question, Nr, Animate):
 	global Ip
 	global Port
 
-	print (Question.question)
-	print (Question.answer_options[0])
+	print (str(Question.question))
+	print (str(Question.answer_options[0]))
 
 
 	script = """
@@ -141,14 +139,14 @@ def askQuestion (Question, Nr, Animate):
 		}
 		
 		document.clear();
-		document.write ("<font size=+2>");
+		document.write ("<font size=+1>");
 		document.write("<h1>Frage """ + str(Nr) + """</h1>""" + \
 		"""<b>""" + Question.question + """</b><br><br>""" + \
-		"""<button onclick=myFunction1()>a</button> """+ Question.answer_options[0] + """<br><br>""" + \
-		"""<button onclick=myFunction2()>b</button> """+ Question.answer_options[1] + """<br><br>""" + \
-		"""<button onclick=myFunction3()>c</button> """+ Question.answer_options[2] + """<br><br>""" + \
-		"""<button onclick=myFunction4()>d</button> """+ Question.answer_options[3] + """<br><br>""" + \
-		"""<button onclick=myFunction100()>?</button> Ich weiss es nicht <br><br>""" + \
+		"""<button class=button onclick=myFunction1()>a</button> """+ Question.answer_options[0] + """<br><br>""" + \
+		"""<button class=button onclick=myFunction2()>b</button> """+ Question.answer_options[1] + """<br><br>""" + \
+		"""<button class=button onclick=myFunction3()>c</button> """+ Question.answer_options[2] + """<br><br>""" + \
+		"""<button class=button onclick=myFunction4()>d</button> """+ Question.answer_options[3] + """<br><br>""" + \
+		"""<button class=button onclick=myFunction100()>?</button> Ich weiss es nicht <br><br>""" + \
 		"""");
 		document.write ("</font>");
 		"""
@@ -162,7 +160,7 @@ def askQuestion (Question, Nr, Animate):
 	tabletService.showWebview("") # this necessary for clearing the screen. cleanWebview() and document.clear() don't do the job. 
 
 	try:
-		tabletService.executeJS(script)
+		tabletService.executeJS(style + script)
 	except Exception as e:
 		print ("Error 1 was: ", e)
 
@@ -240,7 +238,7 @@ def showResult (Question, QuestionNr, NumQuestions, Answer, answer_index, Animat
 		"""<font color = """ + getColor(2, Answer, answer_index) + """> c) """+ Question.answer_options[2] + """</font><br>""" + \
 		"""<font color = """ + getColor(3, Answer, answer_index) + """> d) """+ Question.answer_options[3] + """</font><br>""" + \
 		"<br>" + Question.info + "<br>" + \
-		"""<button onclick=myFunction5()>OK</button> <br><br>""" + \
+		"""<button class=button onclick=myFunction5()>OK</button> <br><br>""" + \
 		"""");
 		document.write ("</font>");
 		"""
@@ -260,13 +258,18 @@ def showResult (Question, QuestionNr, NumQuestions, Answer, answer_index, Animat
 
 
 	try:
-		tabletService.executeJS(script)
+		tabletService.executeJS(style + script)
 	except Exception as e:
 		print ("Error 2 was: ", e)
 
 	if (Animate):
 		# Mood = "neutral"                                     #### UnboundLocalError: local variable 'Mood' referenced before assignment
+		
 		sayTextWithEmotion (Ip, Port, Mood, Heading)
+		if (Animate & 2):
+			sayTextWithEmotion (Ip, Port, "pos", str(Question.question))
+			sayTextWithEmotion (Ip, Port, "pos", str(Question.answer_options[answer_index]))
+		
 		if Question.info != "":
 			sayTextWithEmotion (Ip, Port, Mood, str(Question.info))
 
@@ -371,7 +374,7 @@ def finish (NumCorrect, NumTotal, Animate):
 		document.write("<br>""" + \
 		"""<b>""" + str(NumCorrect) + """ Fragen von """  + str(NumTotal) + """ richtig! </b><br><br>""" + \
 		"""<b>""" + str(NumTotal - NumCorrect) + """ mal etwas Neues gelernt! </b><br><br>""" + \
-		"""<button onclick=myFunction6()>OK</button> <br><br>""" + \
+		"""<button class=button onclick=myFunction6()>OK</button> <br><br>""" + \
 		"""");
 		document.write ("</font>");
 		"""
@@ -379,7 +382,7 @@ def finish (NumCorrect, NumTotal, Animate):
 	EventGlob = "1000"
 
 	try:
-		tabletService.executeJS(script)
+		tabletService.executeJS(style + script)
 	except Exception as e:
 		print ("Error 8 was: ", e)
 
@@ -392,7 +395,6 @@ def finish (NumCorrect, NumTotal, Animate):
 		
 		sayTextWithEmotion (Ip, Port, Mood, str(NumCorrect) + " Fragen von " + str(NumTotal) + " richtig!")
 		sayTextWithEmotion (Ip, Port, Mood, str(NumTotal - NumCorrect) + " mal etwas Neues gelernt!")
-		sayTextWithEmotion (Ip, Port, Mood, greeting)
 		
 		
 	TimeRemaining = Timeout
@@ -400,6 +402,7 @@ def finish (NumCorrect, NumTotal, Animate):
 		TimeRemaining = TimeRemaining - 1
 		time.sleep(1)
 
+	sayTextWithEmotion (Ip, Port, "bye", greeting)
 	tabletService.hideWebview()
 	
 	if (Animate):

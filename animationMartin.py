@@ -10,10 +10,10 @@ global Debug
 Debug = 1
 if (Debug):
 	print "initialising Martins code"
-AnimPos     = ['animations/Stand/Gestures/Yes_1','animations/Stand/Gestures/Yes_2','animations/Stand/Gestures/Yes_3',]
-AnimNeg     = ['animations/Stand/Gestures/No_1', 'animations/Stand/Gestures/No_2', 'animations/Stand/Gestures/No_8',]
-AnimBye     = ['animations/Stand/Gestures/Hey_1','animations/Stand/Gestures/Hey_3','animations/Stand/Gestures/Hey_4','animations/Stand/Gestures/Hey_6']
-AnimNeutral = ['animations/Stand/Gestures/Explain_1']
+AnimPos     = ['animations/Stand/Gestures/Yes_1','animations/Stand/Gestures/Yes_2','animations/Stand/Gestures/Yes_3','animations/Stand/Emotions/Negative/Bored_1','animations/Stand/Emotions/Positive/Hysterical_1']
+AnimNeg     = ['animations/Stand/Gestures/No_1', 'animations/Stand/Gestures/No_2', 'animations/Stand/Gestures/No_8','animations/Stand/Gestures/Desperate_1']
+AnimBye     = ['animations/Stand/Gestures/BowShort_1','animations/Stand/Gestures/Hey_1','animations/Stand/Gestures/Hey_3','animations/Stand/Gestures/Hey_4','animations/Stand/Gestures/Hey_6']
+AnimNeutral = ['animations/Stand/Gestures/Explain_1','animations/Stand/Emotions/Positive/Happy_4', 'animations/Stand/Emotions/Positive/Peaceful_1']
 
 animatedSpeech = None
 
